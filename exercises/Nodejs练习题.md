@@ -142,9 +142,184 @@ fs.appendFile('./test.txt', '\n' + JSON.stringify(arr), err => {
 
 ## __dirname和__filename有什么用处？ 
 
+* 答案：__dirname
+
+1. 获取文件夹绝对路径
+
+```js
+const fs = require('fs')
+let rs = fs.readFileSync(__dirname + "文件名", 'utf8') // 解析编码为 utf8
+console.log(rs);
+```
+
+* 答案：__filename
+
+1. 获取文件的绝对路径
+
+```js
+const fs = require('fs')
+let rs = fs.readFileSync(__filename + "文件名", 'utf8') // 解析编码为 utf8
+console.log(rs);
+```
+
+## 使用fs读取文件时，为什么不推荐使用相对路径？ 
+
 * 答案
 
 ```js
-
+// ∵相对路径 会随着读取文件的位置所改变 ∴ 推荐用绝对路径更为保险
 ```
+
+## fs模块中的writeFile和appendFile有什么区别？ 
+
+* 答案
+
+1. **writeFile覆盖写入文件**
+
+```js
+// 文件路径，内容，回调
+let arr = [{ id: 100, name: '哈哈' }];
+
+fs.writeFile('./test.txt', JSON.stringify(arr), err => {
+    if (err) {
+        console.log(err) // 错误 打印
+    } else {
+        console.log('完成写入')
+    }
+})
+```
+
+2. **appendFile 从数组后面追加写入一条信息**
+
+```js
+// 文件路径，内容，回调
+let arr = [{ id: 1, name: 'test' }];
+// 加个\n是换行					// 转成JSON字符串存入JSON.stringify(arr)
+fs.appendFile('./test.txt', '\n' + JSON.stringify(arr), err => { 
+    if (err) {
+        console.log(err)
+    } else {
+        console.log('完成写入')
+    }
+})
+```
+
+## 请说如明如下代码中 `fs.readFile('./a.txt','utf8',(err,data)=>{})` utf8,err,data的意义？ 
+
+* 答案
+
+```js
+// 1、utf8 的意义是 解析目标编码为 utf8可读取编码 默认编码为 2进制的Buffer硬盘编码
+// 2、err 的意义是 错误报告 代码解析发生了错误 会被传入err 这个变量中 可以用 log(err) 打印出来
+// 3、data 的意义是 代码读取成功后的 返回报告 会被写入data这个 变量中可以用 log(data) 打印出来
+```
+
+## 定义模块 代码题 ！！！ 
+
+```js
+// yourModule.js	
+exports.a = 1;
+使用模块。请问，如下代码中会输出什么结果？
+
+//index.js
+const yourModule = require('./yourModule');
+console.log(yourModule)
+```
+
+* **答案**
+
+```js
+// 会输出 报错语句 ∵ const yourModule = require('./yourModule'); 这代码后半步 没有写后坠 .js
+              //  ∴ 代码执行 会报错
+```
+
+
+
+## 题目16 
+
+```js
+// yourModule.js	
+exports = {a : 1 };
+使用模块。请问，如下代码中会输出什么结果？
+
+//index.js
+const yourModule = require('./yourModule');
+console.log(yourModule)
+```
+
+* **答案**
+
+```js
+// 输出结果是一个 {}
+```
+
+## 题目17 
+
+```js
+// yourModule.js	
+exports.a = 1;
+module.exports.b = 2
+使用模块。请问，如下代码中会输出什么结果？
+
+//index.js
+const yourModule = require('./yourModule');
+console.log(yourModule)
+```
+
+* **答案**
+
+```js
+// 输出结果为 {a:1,b:2}
+```
+
+## 题目18 
+
+```js
+// yourModule.js	
+exports = {a:1}
+module.exports = {b:2}
+使用模块。请问，如下代码中会输出什么结果？
+
+//index.js
+const yourModule = require('./yourModule');
+console.log(yourModule)
+```
+
+* 答案
+
+```js
+// 输出结果为 {b:2}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
