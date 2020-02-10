@@ -50,10 +50,23 @@ const Write = (name, content) => {
     return arr
 }
 // 快速写入
-for (let i = 0; i < 50; i++) {
-    let b = Write("测试数据", "我只是一句内容");
-    console.log(b);
+/* for (let i = 0; i < 10; i++) {
+    Write("测试数据", "我只是一句内容");
+} */
+const delMsg = ID => {
+    // 取出 储存库里的数据
+    arr = gitAndshow()
+    // 循环遍历每条信息
+    for (let i = 0; i < arr.length; i++) {
+        // 用if查找 传入的Id
+        if (arr[i].id == ID) {
+            // 找到后 删除这个Id的数据
+            arr.splice(i, 1)
+            console.log(arr);
+            // 删除后重新存入 储存库里
+            fs.writeFileSync(newsite, JSON.stringify(arr))
+            break
+        }
+    }
 }
-
-
-
+delMsg();
