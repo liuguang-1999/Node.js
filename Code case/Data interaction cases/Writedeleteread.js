@@ -1,14 +1,6 @@
 
 
 
-
-
-
-
-
-
-
-
 // 引入 fs模块
 const fs = require('fs')
 // 引入 path 模块
