@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>留言板</title>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="./assets/bootstrap.css" />
+  <style>
+    #messages img {
+      width: 50px;
+    }
+
+    .main {
+      height: 450px;
+      padding: 20px;
+      overflow: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="display-6">留言板</h1>
+    <hr />
+    <div class="main">
+      <!-- !!!!!!!!!! -->
+      <ul id="messages" class="list-unstyled">
+        <li class="media">
+          <img class="mr-3" src="./assets/avatar.png" alt="张三" />
+          <div class="media-body">
+            <h4>张三</h4>
+            <p>寒雨连江夜入吴</p>
+            <p>2019-06-07</p>
+          </div>
+        </li>
+        <li class="media">
+          <img class="mr-3" src="./assets/avatar.png" alt="张三" />
+          <div class="media-body">
+            <h4>张三</h4>
+            <p>平明送客楚江孤</p>
+            <p>2019-06-07</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <hr />
+    <div id="linkArea">
+      <a href="./login.html">请登陆</a>
+    </div>
+    <form id="formArea" style="display: block;">
+      <div class="form-group">
+        <label for="txt_name">称呼：</label>
+        <label id="txt_name" type="text">yourname</label>
+        <a href="javascript:;" id="btnQuit">退出</a>
+      </div>
+      <div class="form-group" style="display: flex">
+        <label for="txt_content" style="display:none">留言：</label>
+        <input type="text" id="mingzi" class="form-control" placeholder="请输入名称">
+        <input type="text" id="neirong" class="form-control" placeholder="请输入内容">
+
+        <button id="btn_send" type="button" class="btn btn-primary">提交</button>
+      </div>
+    </form>
+  </div>
+  <script src="./JS/addressbase.js"></script>
+  <script src="./JS/usil.js"></script>
+
+  <script>
+    //  显示功能 模块
+    getAedshow()
+    function getAedshow() {
+      usil.load().then((ser) => {
+        $("#messages").empty("")
+        ser.data.forEach(item => {
+          var str = `
+        <li class="media">
+          <img class="mr-3" src="./assets/avatar.png" alt="张三" />
+          <div class="media-body">
+            <h4>${item.name}</h4>
+            <p>${item.content}</p>
+            <p>${item.dt}</p>
+          </div>
+        </li>
+        `
+          $("#messages").append(str)
+        });
+      })
+    }
+    //  添加功能模块
+    $("#btn_send").click(() => {
+      let name = $("#mingzi").val().trim()
+      let content = $("#neirong").val().trim()
+      usil.add(name, content).then(ser => {
+        if (ser.code == 200) {
+          getAedshow()
+          $("#mingzi").val("")
+          $("#neirong").val("")
+          alert("添加成功")
+        } else {
+          alert("添加失败")
+        }
+      })
+    })
+
+
+
+
+  </script>
+</body>
+
+</html>
